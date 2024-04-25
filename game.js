@@ -3,16 +3,18 @@ const choices = Array.from(document.getElementsByClassName("choice-text"));
 const progressText = document.getElementById('progressText');
 const scoreText = document.getElementById('score');
 const progressBarFull = document.getElementById('progressBarFull');
+const timerText = document.getElementById('timer');
 
 const loader = document.getElementById('loader')
 const game = document.getElementById('game');
-
 
 let currentQuestion = {};
 let acceptingAnswers = false;
 let score = 0;
 let questionCounter = 0;
 let availableQuestions = [];
+let timer;
+let timePerQuestion = 10; // Initial time per question in seconds
 
 let questions = [];
 
@@ -66,17 +68,35 @@ startGame = () =>{
             loader.classList.add("hidden");
 
             getNewQuestion();
+            startTimer();
         })
         .catch(err => {
             console.error('Error loading questions:', err);
         });
 };
 
+startTimer = () => {
+    timerText.innerText = timePerQuestion;
+    timer = setInterval(() => {
+        timePerQuestion--;
+        timerText.innerText = timePerQuestion;
+        if (timePerQuestion === 0) {
+            clearInterval(timer);
+            getNewQuestion();
+            startTimer();
+        }
+    }, 1000);
+}
+
 getNewQuestion = () =>{
     if(availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS){
+        clearInterval(timer);
         localStorage.setItem("mostRecentScore", score);
         return window.location.assign('end.html');
     }
+
+    timePerQuestion = 10; // Reset time per question
+    timerText.innerText = timePerQuestion;
 
     questionCounter++;
     progressText.innerText = ` Question ${questionCounter}/${MAX_QUESTIONS}`;
@@ -101,6 +121,8 @@ choices.forEach(choice =>{
         if(!acceptingAnswers) return;
 
         acceptingAnswers = false;
+        clearInterval(timer);
+
         const selectedChoice = e.target;
         const selectedAnswer = selectedChoice.dataset['number'];
 
@@ -117,6 +139,7 @@ choices.forEach(choice =>{
 
         setTimeout(() =>{
             getNewQuestion();
+            startTimer();
         },2000);
     });
 });
