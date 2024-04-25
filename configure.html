@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trivia Game Configuration</title>
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="configure.css">
+
+</head>
+<body>
+  <div class="container flex-column flex-center">
+    <h1>Trivia Game Configuration</h1>
+    <form id="trivia-form" class="flex-column" autocomplete="off">
+      <label for="number">Number of Questions:</label>
+      <input type="number" id="number" name="number" min="1" max="50" placeholder="Enter number of questions" required><br>
+      <label for="category">Select category:</label>
+      <select id="category" name="category">
+        <option value="any">Any Category</option>
+        <option value="9">General Knowledge</option>
+        <option value="10">Entertainment: Books</option>
+        <option value="11">Entertainment: Film</option>
+        <option value="12">Entertainment: Music</option>
+        <option value="13">Entertainment: Musicals &amp; Theatres</option>
+        <option value="14">Entertainment: Television</option>
+        <option value="15">Entertainment: Video Games</option>
+        <option value="16">Entertainment: Board Games</option>
+        <option value="17">Science &amp; Nature</option>
+        <option value="18">Science: Computers</option>
+        <option value="19">Science: Mathematics</option>
+        <option value="20">Mythology</option>
+        <option value="21">Sports</option>
+        <option value="22">Geography</option>
+        <option value="23">History</option>
+        <option value="24">Politics</option>
+        <option value="25">Art</option>
+        <option value="26">Celebrities</option>
+        <option value="27">Animals</option>
+        <option value="28">Vehicles</option>
+        <option value="29">Entertainment: Comics</option>
+        <option value="30">Science: Gadgets</option>
+        <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+        <option value="32">Entertainment: Cartoon &amp; Animations</option>
+      </select><br>
+      <label for="difficulty">Select difficulty:</label>
+      <select id="difficulty" name="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select><br>
+      <button type="button" id="start-game" class="btn">Start Game</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("start-game").addEventListener("click", function() {
+      const number = document.getElementById("number").value;
+      const category = document.getElementById("category").value;
+      const difficulty = document.getElementById("difficulty").value;
+      localStorage.setItem("numberOfQuestions", number);
+      localStorage.setItem("category", category);
+      localStorage.setItem("difficulty", difficulty);
+      window.location.href = "game.html";
+    });
+  </script>
+</body>
+</html>
